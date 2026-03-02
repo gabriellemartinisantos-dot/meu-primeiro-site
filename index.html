@@ -1,11 +1,512 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Galeria de Atividades Infantis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a1d6d;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 #ffd700;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item .placeholder-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #4a1d6d;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+            padding: 20px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px dashed #adb5bd;
+        }
+
+        .gallery-item .activity-tag {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background: rgba(74, 29, 109, 0.9);
+            color: white;
+            padding: 8px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 2px solid #ffd700;
+        }
+
+        .gallery-item:hover .activity-tag {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stats {
+            background: #4a1d6d;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            box-shadow: 0 5px 15px rgba(74, 29, 109, 0.3);
+        }
+
+        .stats span {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.4em;
+            margin: 0 5px;
+        }
+
+        .add-button {
+            background: #ffd700;
+            color: #4a1d6d;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            border: 2px solid #4a1d6d;
+        }
+
+        .add-button:hover {
+            background: #4a1d6d;
+            color: #ffd700;
+            transform: scale(1.05);
+            border-color: #ffd700;
+        }
+
+        .instructions {
+            background: #fff3bf;
+            border-left: 5px solid #ffd700;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin: 20px 0 30px;
+            color: #4a1d6d;
+            font-size: 1.1em;
+        }
+
+        .instructions code {
+            background: #4a1d6d;
+            color: #ffd700;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    Eu não sei o que estou fazendo!!
+    <div class="container">
+        <h1>🎨 Galeria Infantil 🎨</h1>
+        <p class="subtitle">Espaços para 50 atividades educativas e divertidas!</p>
+
+        <div class="gallery-header">
+            <div class="stats">
+                📸 Total de espaços: <span>50</span>
+            </div>
+            <button class="add-button" onclick="alert('Para adicionar imagens, substitua os links no código HTML!')">
+                ➕ Adicionar Atividade
+            </button>
+        </div>
+
+        <div class="instructions">
+            <strong>✏️ Como usar:</strong> Para adicionar imagens às atividades, substitua o <code>link-da-imagem-aqui</code> pelo URL real da imagem nos 50 espaços abaixo.
+        </div>
+
+        <div class="gallery" id="gallery">
+            <!-- 50 espaços para atividades infantis -->
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=200&h=200&fit=crop" alt="Atividade de pintura" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🎨 Pintura</div>
+                <div class="activity-tag">Atividade 1: Pintura</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=200&h=200&fit=crop" alt="Leitura infantil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">📚 Leitura</div>
+                <div class="activity-tag">Atividade 2: Leitura</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1545558014-238207388857?w=200&h=200&fit=crop" alt="Blocos de montar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🧱 Blocos</div>
+                <div class="activity-tag">Atividade 3: Blocos de Montar</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=200&h=200&fit=crop" alt="Atividade musical" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🎵 Música</div>
+                <div class="activity-tag">Atividade 4: Música</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=200&h=200&fit=crop" alt="Quebra-cabeça" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🧩 Quebra-cabeça</div>
+                <div class="activity-tag">Atividade 5: Quebra-cabeça</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=200&h=200&fit=crop" alt="Atividade ao ar livre" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🌳 Ao ar livre</div>
+                <div class="activity-tag">Atividade 6: Parque</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=200&h=200&fit=crop" alt="Massinha de modelar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🎭 Massinha</div>
+                <div class="activity-tag">Atividade 7: Modelagem</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200&h=200&fit=crop" alt="Jogos educativos" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🎲 Jogos</div>
+                <div class="activity-tag">Atividade 8: Jogos Educativos</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?w=200&h=200&fit=crop" alt="Desenho" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">✏️ Desenho</div>
+                <div class="activity-tag">Atividade 9: Desenho Livre</div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1603487742131-4160ec999306?w=200&h=200&fit=crop" alt="Teatro infantil" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="placeholder-text" style="display: none;">🎭 Teatro</div>
+                <div class="activity-tag">Atividade 10: Teatro</div>
+            </div>
+
+            <!-- Mais 40 espaços com placeholders coloridos -->
+            <!-- De 11 a 50 -->
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FF6B6B, #FF8E53);">🧩 Quebra-cabeça</div>
+                <div class="activity-tag">Atividade 11: Quebra-cabeça</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #4ECDC4, #556270);">🎨 Pintura</div>
+                <div class="activity-tag">Atividade 12: Pintura com Dedos</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFD93D, #FF9800);">📚 Contação de Histórias</div>
+                <div class="activity-tag">Atividade 13: Histórias</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #6C5B7B, #C06C84);">🎵 Música</div>
+                <div class="activity-tag">Atividade 14: Cantando</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #99B898, #FECEAB);">🧱 Construção</div>
+                <div class="activity-tag">Atividade 15: Construção</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFAAA5, #FFD3B6);">🌳 Natureza</div>
+                <div class="activity-tag">Atividade 16: Explorar Natureza</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #A8E6CF, #DCEDC1);">✏️ Escrita</div>
+                <div class="activity-tag">Atividade 17: Primeiras Letras</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FF8B94, #FFB8B8);">🧮 Matemática</div>
+                <div class="activity-tag">Atividade 18: Números</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #B5EAD7, #C7CEEA);">🎭 Fantoches</div>
+                <div class="activity-tag">Atividade 19: Teatro de Fantoches</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #E2F0CB, #B5D5C5);">🌍 Geografia</div>
+                <div class="activity-tag">Atividade 20: Explorar Mapas</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFC3A0, #FF6F61);">🔬 Ciências</div>
+                <div class="activity-tag">Atividade 21: Experimentos</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #D4A5A5, #E8D1C5);">🧵 Artesanato</div>
+                <div class="activity-tag">Atividade 22: Artesanato</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #9AD0C2, #D7EEE4);">⚽ Esportes</div>
+                <div class="activity-tag">Atividade 23: Coordenação</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #F7D1CD, #E8C2C2);">🎨 Colagem</div>
+                <div class="activity-tag">Atividade 24: Colagem</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #B5C9D0, #9AB0BF);">🎪 Circo</div>
+                <div class="activity-tag">Atividade 25: Brincadeiras de Circo</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #F3B3A6, #F2D1C0);">🧘 Yoga</div>
+                <div class="activity-tag">Atividade 26: Yoga Infantil</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #C1B0E5, #A594D9);">🎬 Cinema</div>
+                <div class="activity-tag">Atividade 27: Sessão Cinema</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #B0E0E6, #87CEEB);">🌊 Praia</div>
+                <div class="activity-tag">Atividade 28: Dia de Praia</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FADADD, #F8C8D0);">🍪 Culinária</div>
+                <div class="activity-tag">Atividade 29: Culinária Infantil</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #C5E0B4, #AED6A4);">🌱 Jardinagem</div>
+                <div class="activity-tag">Atividade 30: Pequeno Jardineiro</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFE5B4, #FFDAB9);">🐶 Animais</div>
+                <div class="activity-tag">Atividade 31: Conhecendo Animais</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #E6E6FA, #D8BFD8);">🎨 Aquarela</div>
+                <div class="activity-tag">Atividade 32: Pintura com Aquarela</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #98D8C8, #77BFA3);">🎣 Pesca</div>
+                <div class="activity-tag">Atividade 33: Pesca Divertida</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FBC4C4, #FAA0A0);">🎈 Festa</div>
+                <div class="activity-tag">Atividade 34: Festa Infantil</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #C9E4C5, #B5D6B2);">🚴 Bicicleta</div>
+                <div class="activity-tag">Atividade 35: Andar de Bicicleta</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFD1DC, #FFB6C1);">🦋 Borboletas</div>
+                <div class="activity-tag">Atividade 36: Observar Borboletas</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #B5C9D0, #9AB0BF);">🎵 Dança</div>
+                <div class="activity-tag">Atividade 37: Dança Criativa</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #E8D1C5, #D4B8A5);">📷 Fotografia</div>
+                <div class="activity-tag">Atividade 38: Fotografia</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #C1E1C1, #A9D4A9);">🧺 Piquenique</div>
+                <div class="activity-tag">Atividade 39: Piquenique</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFB7B2, #FF9A8B);">🎪 Acampamento</div>
+                <div class="activity-tag">Atividade 40: Acampamento</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #B0C4DE, #9BB0C5);">🚀 Astronomia</div>
+                <div class="activity-tag">Atividade 41: Observar Estrelas</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #F5E6D3, #ECDAC9);">🧩 Memória</div>
+                <div class="activity-tag">Atividade 42: Jogo da Memória</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #D4B8D4, #C4A5C4);">🎨 Argila</div>
+                <div class="activity-tag">Atividade 43: Modelagem em Argila</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #A8D5BA, #97C1A9);">🌧️ Chuva</div>
+                <div class="activity-tag">Atividade 44: Brincar na Chuva</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFE4B5, #FFD39A);">🐚 Conchas</div>
+                <div class="activity-tag">Atividade 45: Colecionar Conchas</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #E0BBE4, #D2A5D9);">🎭 Mímica</div>
+                <div class="activity-tag">Atividade 46: Brincadeiras de Mímica</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #B5EAD7, #A2D5C6);">🧦 Fantoches de Meia</div>
+                <div class="activity-tag">Atividade 47: Fantoches de Meia</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FBC1C1, #F9A8A8);">🎨 Desenho Coletivo</div>
+                <div class="activity-tag">Atividade 48: Desenho em Grupo</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #C1E1D4, #AED0C2);">🌻 Plantar Flores</div>
+                <div class="activity-tag">Atividade 49: Plantando Flores</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="placeholder-text" style="display: flex; background: linear-gradient(135deg, #FFDAB9, #FFC89C);">🎉 Dia do Brinquedo</div>
+                <div class="activity-tag">Atividade 50: Dia do Brinquedo</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        🌟 Galeria com 50 espaços para atividades infantis | 
+        <a href="#" onclick="alert('Substitua os links nos atributos src das imagens!'); return false;">Como adicionar imagens</a>
+    </footer>
+
+    <script>
+        // Pequeno script para garantir que os placeholders apareçam se as imagens não carregarem
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                const placeholder = this.nextElementSibling;
+                if (placeholder && placeholder.classList.contains('placeholder-text')) {
+                    placeholder.style.display = 'flex';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
